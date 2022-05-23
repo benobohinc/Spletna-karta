@@ -6,12 +6,14 @@
         <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
-        <link rel="stylesheet" href="css/leaflet.css">
+        <link rel="stylesheet" href="css/leaflet.css"><link rel="stylesheet" href="css/L.Control.Locate.min.css">
         <link rel="stylesheet" href="css/qgis2web.css"><link rel="stylesheet" href="css/fontawesome-all.min.css">
         <style>
-        #map {
-            width: 1619px;
-            height: 866px;
+        html, body, #map {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
         }
         </style>
         <title></title>
@@ -20,7 +22,7 @@
         <div id="map">
         </div>
         <script src="js/qgis2web_expressions.js"></script>
-        <script src="js/leaflet.js"></script>
+        <script src="js/leaflet.js"></script><script src="js/L.Control.Locate.min.js"></script>
         <script src="js/leaflet.rotatedMarker.js"></script>
         <script src="js/leaflet.pattern.js"></script>
         <script src="js/leaflet-hash.js"></script>
@@ -32,11 +34,12 @@
         <script src="data/oniun_2.js"></script>
         <script>
         var map = L.map('map', {
-            zoomControl:true, maxZoom:28, minZoom:1
-        }).fitBounds([[46.465481345174396,14.016223209141586],[46.499404941224974,14.108426364726979]]);
+            zoomControl:true, maxZoom:18, minZoom:14
+        }).fitBounds([[46.4545616159769,14.013400663562441],[46.48849201815311,14.105603819147834]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
+        L.control.locate({locateOptions: {maxZoom: 19}}).addTo(map);
         var bounds_group = new L.featureGroup([]);
         function setBounds() {
         }
@@ -46,8 +49,8 @@
             pane: 'pane_OpenStreetMap_0',
             opacity: 0.6829999999999999,
             attribution: '',
-            minZoom: 1,
-            maxZoom: 28,
+            minZoom: 14,
+            maxZoom: 18,
             minNativeZoom: 0,
             maxNativeZoom: 19
         });
@@ -105,7 +108,7 @@
                 lineJoin: 'bevel',
                 weight: 3.0,
                 fillOpacity: 0,
-                interactive: false,
+                interactive: true,
             }
         }
         map.createPane('pane_818111939576077414golicatracks_1');
@@ -113,7 +116,7 @@
         map.getPane('pane_818111939576077414golicatracks_1').style['mix-blend-mode'] = 'normal';
         var layer_818111939576077414golicatracks_1 = new L.geoJson(json_818111939576077414golicatracks_1, {
             attribution: '',
-            interactive: false,
+            interactive: true,
             dataVar: 'json_818111939576077414golicatracks_1',
             layerName: 'layer_818111939576077414golicatracks_1',
             pane: 'pane_818111939576077414golicatracks_1',
@@ -173,6 +176,8 @@
         });
         bounds_group.addLayer(layer_oniun_2);
         map.addLayer(layer_oniun_2);
+        var baseMaps = {};
+        L.control.layers(baseMaps,{'<img src="legend/oniun_2.png" /> oniun': layer_oniun_2,'<img src="legend/818111939576077414golicatracks_1.png" /> 818111939576077414golica — tracks': layer_818111939576077414golicatracks_1,"OpenStreetMap": layer_OpenStreetMap_0,}).addTo(map);
         setBounds();
         </script>
     </body>
